@@ -1,24 +1,61 @@
-<h1>Survey</h1>
+<header class="page-header">
+  <h1>Survey</h1>
+  <p>Answer a few quick questions.</p>
+</header>
 
-<%= form_with url: survey_path, method: :post do %>
-  <% @questions.each do |question| %>
-    <fieldset>
-      <legend><%= question[:title] %></legend>
-
-      <% question[:answers].each do |answer| %>
-        <label>
-          <% if question[:question_type] == "radio" %>
-            <%= radio_button_tag "answers[#{question[:id]}]", answer[:id] %>
-          <% else %>
-            <%= check_box_tag "answers[#{question[:id]}][]", answer[:id] %>
-          <% end %>
-          <%= answer[:display_text] %>
-        </label>
+<% if @errors&.any? %>
+  <div class="errors">
+    <p>Please fix the following:</p>
+    <ul>
+      <% @questions.each do |question| %>
+        <% if @errors[question[:id]] %>
+          <li><%= question[:title] %>: <%= @errors[question[:id]] %></li>
+        <% end %>
       <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with url: survey_path, method: :post, html: { class: "survey-form" } do %>
+  <% @questions.each do |question| %>
+    <fieldset class="question-block">
+      <legend>
+        <%= question[:title] %>
+        <% if question[:question_type] == "radio" %>
+          <span class="hint">(required)</span>
+        <% end %>
+      </legend>
+
+      <% if @errors&.dig(question[:id]) %>
+        <p class="field-error"><%= @errors[question[:id]] %></p>
+      <% end %>
+
+      <div class="answer-list">
+        <% question[:answers].each do |answer| %>
+          <label class="answer-option">
+            <% if question[:question_type] == "radio" %>
+              <%= radio_button_tag(
+                    "answers[#{question[:id]}]",
+                    answer[:id],
+                    selected_answer_ids(question[:id]).include?(answer[:id]),
+                    required: true
+                  ) %>
+            <% else %>
+              <%= check_box_tag(
+                    "answers[#{question[:id]}][]",
+                    answer[:id],
+                    selected_answer_ids(question[:id]).include?(answer[:id])
+                  ) %>
+            <% end %>
+            <span><%= answer[:display_text] %></span>
+          </label>
+        <% end %>
+      </div>
     </fieldset>
   <% end %>
 
-  <%= submit_tag "Submit" %>
+  <div class="form-actions">
+    <%= submit_tag "Submit survey", class: "btn btn-primary" %>
+    <%= link_to "View results", results_path, class: "btn btn-secondary" %>
+  </div>
 <% end %>
-
-<p><%= link_to "View results", results_path %></p>

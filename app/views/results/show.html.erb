@@ -1,37 +1,42 @@
-<h1>Survey results</h1>
+<header class="page-header">
+  <h1>Survey results</h1>
+  <p>Most popular answers, split by happy and unhappy respondents.</p>
+</header>
 
-<section>
-  <h2>Most popular answers among happy users</h2>
-  <% if @happy_results.any? %>
-    <ul>
-      <% @happy_results.each do |result| %>
-        <li>
-          <%= result[:question_title] %>:
-          <%= result[:answer_text] %>
-          (<%= result[:selection_count] %>)
-        </li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p>No happy responses yet.</p>
-  <% end %>
-</section>
+<div class="results-stack">
+  <section class="result-panel happy">
+    <h2>Happy users</h2>
+    <% if @happy_results.any? %>
+      <ul class="result-list">
+        <% @happy_results.each do |result| %>
+          <li>
+            <span class="question"><%= result[:question_title] %></span>
+            <span class="answer"><%= result[:answer_text] %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="empty-state">No happy responses yet.</p>
+    <% end %>
+  </section>
 
-<section>
-  <h2>Most popular answers among unhappy users</h2>
-  <% if @unhappy_results.any? %>
-    <ul>
-      <% @unhappy_results.each do |result| %>
-        <li>
-          <%= result[:question_title] %>:
-          <%= result[:answer_text] %>
-          (<%= result[:selection_count] %>)
-        </li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p>No unhappy responses yet.</p>
-  <% end %>
-</section>
+  <section class="result-panel unhappy">
+    <h2>Unhappy users</h2>
+    <% if @unhappy_results.any? %>
+      <ul class="result-list">
+        <% @unhappy_results.each do |result| %>
+          <li>
+            <span class="question"><%= result[:question_title] %></span>
+            <span class="answer"><%= result[:answer_text] %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="empty-state">No unhappy responses yet.</p>
+    <% end %>
+  </section>
+</div>
 
-<p><%= link_to "Back to survey", root_path %></p>
+<p class="page-footer">
+  <%= link_to "Back to survey", root_path, class: "btn btn-secondary" %>
+</p>
