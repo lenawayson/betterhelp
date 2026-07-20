@@ -201,11 +201,27 @@ ALTER TABLE ONLY public.answers
 
 
 --
+-- Name: answers answers_question_id_display_order_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.answers
+    ADD CONSTRAINT answers_question_id_display_order_unique UNIQUE (question_id, display_order);
+
+
+--
 -- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: questions questions_display_order_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.questions
+    ADD CONSTRAINT questions_display_order_unique UNIQUE (display_order);
 
 
 --
@@ -300,6 +316,7 @@ ALTER TABLE ONLY public.response_answers
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260720122000'),
 ('20260720103304'),
 ('20260720103303'),
 ('20260720103302'),

@@ -11,7 +11,7 @@ class SurveysController < ApplicationController
         a.display_order AS answer_order
       FROM questions q
       INNER JOIN answers a ON a.question_id = q.id
-      ORDER BY question_order ASC, answer_order ASC
+      ORDER BY q.display_order ASC, q.id ASC, a.display_order ASC, a.id ASC
     SQL
 
     @questions = group_questions(rows)

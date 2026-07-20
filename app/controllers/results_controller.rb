@@ -36,9 +36,9 @@ class ResultsController < ApplicationController
             WHERE answer_id = $1
           )
           GROUP BY q.id, q.title, q.display_order, a.id, a.display_text, a.display_order
-          ORDER BY q.id, COUNT(*) DESC, a.display_order
+          ORDER BY q.id, COUNT(*) DESC, a.display_order ASC, a.id ASC
         ) top_answers
-        ORDER BY question_order
+        ORDER BY question_order ASC, question_id ASC
       SQL
       "results_controller.most_popular_answers",
       [
