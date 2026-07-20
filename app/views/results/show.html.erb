@@ -1,0 +1,37 @@
+<h1>Survey results</h1>
+
+<section>
+  <h2>Most popular answers among happy users</h2>
+  <% if @happy_results.any? %>
+    <ul>
+      <% @happy_results.each do |result| %>
+        <li>
+          <%= result[:question_title] %>:
+          <%= result[:answer_text] %>
+          (<%= result[:selection_count] %>)
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No happy responses yet.</p>
+  <% end %>
+</section>
+
+<section>
+  <h2>Most popular answers among unhappy users</h2>
+  <% if @unhappy_results.any? %>
+    <ul>
+      <% @unhappy_results.each do |result| %>
+        <li>
+          <%= result[:question_title] %>:
+          <%= result[:answer_text] %>
+          (<%= result[:selection_count] %>)
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No unhappy responses yet.</p>
+  <% end %>
+</section>
+
+<p><%= link_to "Back to survey", root_path %></p>

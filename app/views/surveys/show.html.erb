@@ -1,0 +1,24 @@
+<h1>Survey</h1>
+
+<%= form_with url: survey_path, method: :post do %>
+  <% @questions.each do |question| %>
+    <fieldset>
+      <legend><%= question[:title] %></legend>
+
+      <% question[:answers].each do |answer| %>
+        <label>
+          <% if question[:question_type] == "radio" %>
+            <%= radio_button_tag "answers[#{question[:id]}]", answer[:id] %>
+          <% else %>
+            <%= check_box_tag "answers[#{question[:id]}][]", answer[:id] %>
+          <% end %>
+          <%= answer[:display_text] %>
+        </label>
+      <% end %>
+    </fieldset>
+  <% end %>
+
+  <%= submit_tag "Submit" %>
+<% end %>
+
+<p><%= link_to "View results", results_path %></p>
